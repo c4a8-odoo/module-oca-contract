@@ -22,6 +22,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
+[contract_sale](contract_sale/) | 19.0.1.0.0 |  | Access contracts from Sales.
 [subscription_oca](subscription_oca/) | 19.0.1.0.0 |  | Generate recurring invoices.
 
 [//]: # (end addons)
