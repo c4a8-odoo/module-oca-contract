@@ -148,11 +148,15 @@ class ContractLine(models.Model):
                         )
                     )
                 if not rec.date_end:
-                    raise ValidationError(self.env._("An auto-renew line must have a end date"))
+                    raise ValidationError(
+                        self.env._("An auto-renew line must have a end date")
+                    )
             else:
                 if not rec.date_end and rec.successor_contract_line_id:
                     raise ValidationError(
-                        self.env._("A contract line with a successor " "must have a end date")
+                        self.env._(
+                            "A contract line with a successor must have a end date"
+                        )
                     )
 
     @api.constrains("successor_contract_line_id", "date_end")
@@ -376,7 +380,9 @@ class ContractLine(models.Model):
         for rec in self:
             if rec.last_date_invoiced:
                 raise ValidationError(
-                    self.env._("You can't delay a contract line " "invoiced at least one time.")
+                    self.env._(
+                        "You can't delay a contract line invoiced at least one time."
+                    )
                 )
             new_date_start = rec.date_start + delay_delta
             if rec.date_end:
@@ -500,7 +506,9 @@ class ContractLine(models.Model):
         contract_line = self.env["contract.line"]
         for rec in self:
             if not rec.is_plan_successor_allowed:
-                raise ValidationError(self.env._("Plan successor not allowed for this line"))
+                raise ValidationError(
+                    self.env._("Plan successor not allowed for this line")
+                )
             rec.is_auto_renew = False
             new_line = self.create(
                 rec._prepare_value_for_plan_successor(
@@ -560,7 +568,9 @@ class ContractLine(models.Model):
         :return: created contract line
         """
         if not all(self.mapped("is_stop_plan_successor_allowed")):
-            raise ValidationError(self.env._("Stop/Plan successor not allowed for this line"))
+            raise ValidationError(
+                self.env._("Stop/Plan successor not allowed for this line")
+            )
         contract_line = self.env["contract.line"]
         for rec in self:
             if rec.date_start >= date_start:
@@ -824,7 +834,9 @@ class ContractLine(models.Model):
         """stop unlink uncanceled lines"""
         for record in self:
             if not (record.is_canceled or record.display_type):
-                raise ValidationError(self.env._("Contract line must be canceled before delete"))
+                raise ValidationError(
+                    self.env._("Contract line must be canceled before delete")
+                )
 
     @api.constrains("is_auto_renew", "auto_renew_interval")
     def _check_auto_renew_interval(self):
